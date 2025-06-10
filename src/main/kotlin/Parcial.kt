@@ -66,11 +66,11 @@ interface Preferencia{
     fun esAdecuado(lugar: Lugar): Boolean
 }
 
-class Tranquilidad : Preferencia{
+object Tranquilidad : Preferencia{
     override fun esAdecuado(lugar: Lugar) = lugar.esTranquilo()
 }
 
-class Divertido : Preferencia{
+object Divertido : Preferencia{
     override fun esAdecuado(lugar: Lugar) = lugar.esDivertido()
 }
 
@@ -93,3 +93,5 @@ class Combinado : Preferencia{
     val preferencias = mutableListOf<Preferencia>()
     override fun esAdecuado(lugar: Lugar) = preferencias.any { it.esAdecuado(lugar) }
 }
+
+
