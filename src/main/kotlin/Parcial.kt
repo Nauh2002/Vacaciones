@@ -30,7 +30,8 @@ class Ciudad(nombre: String,
              var atraccionesTuristicas: List<String>,
              var decibelesPromedio: Double): Lugar(nombre, codigoAfip){
 
-                 override fun criterioEspecifico() = atraccionesTuristicas.size > 3 && cantidadDeHabitantes > 100000
+
+    override fun criterioEspecifico() = atraccionesTuristicas.size > 3 && cantidadDeHabitantes > 100000
 
     override fun esTranquilo() = decibelesPromedio < 20
 
@@ -39,9 +40,9 @@ class Ciudad(nombre: String,
 
 class Pueblo(nombre: String,
              codigoAfip: String,
-             var extesionKm : Double,
-             var fundacion: LocalDate,
-             var provincia: String): Lugar(nombre, codigoAfip){
+             val extesionKm : Double,
+             val fundacion: LocalDate,
+             val provincia: String): Lugar(nombre, codigoAfip){
     val litorales = listOf<String>("Entre Ríos","Corrientes","Misiones")
 
     override fun criterioEspecifico() = fundacion.year < 1800 || litorales.contains(provincia)
@@ -52,9 +53,9 @@ class Pueblo(nombre: String,
 
 class Balnearios(nombre: String,
                  codigoAfip: String,
-                 var promedioDeMetrosPlaya : Double,
-                 var marEsPeligroso: Boolean,
-                 var tienePeatonal: Boolean) : Lugar(nombre,codigoAfip){
+                 val promedioDeMetrosPlaya : Double,
+                 val marEsPeligroso: Boolean,
+                 val tienePeatonal: Boolean) : Lugar(nombre,codigoAfip){
 
     override fun criterioEspecifico(): Boolean = promedioDeMetrosPlaya > 300 &&  marEsPeligroso
 
@@ -116,8 +117,8 @@ class Combinado : Preferencia{
 }
 
 
-class Tour(var fechaDeSalida: LocalDate,
-           var cantidadDePersonasRequeridas: Int,
+class Tour(val fechaDeSalida: LocalDate,
+           val cantidadDePersonasRequeridas: Int,
            val lugares: MutableList<Lugar> = mutableListOf(),
            val montoApagarPorPersona: Double)
 {
@@ -241,7 +242,7 @@ class AlternadorCambioPreferencia : TourConfirmadoObserver {
 *
 * 2-Crear subclases
 * Separa comportamientos en clases hijas (Solo una herencia por clase)
-* Útil cuando las variantes son pocas, estables y bien definidas (Regalos)
+* Útil cuando las variantes son pocas, estables y bien definidas (Lugares)
 * Poca flexibilidad, implica nueva clase o subclases
 *
 * 3-Tener variables y condicionales
