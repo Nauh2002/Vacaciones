@@ -118,7 +118,8 @@ class Combinado : Preferencia{
     override fun esAdecuado(lugar: Lugar) = preferencias.any { it.esAdecuado(lugar) }
 }
 
-
+// Command ⇒ encapsula la lógica de asignar personas a tours según condiciones
+// Ejecuta acciones diferentes (asignar o agregar a pendientes) como comandos implícitos
 class Tour(val fechaDeSalida: LocalDate,
            val cantidadDePersonasRequeridas: Int,
            val montoApagarPorPersona: Double)
@@ -194,6 +195,8 @@ interface ServicioMail {
 
 data class Mail(val from: String, val to: String, val subject: String, val content: String)
 
+
+// Observer ⇒ ejecuta acciones cuando se produce un evento (al confirmar un tour)
 interface PostConfirmacionObservers {
     fun ejecutar(tour: Tour){
 
