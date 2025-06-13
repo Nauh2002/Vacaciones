@@ -148,6 +148,13 @@ class Tour(val fechaDeSalida: LocalDate,
         return personasAviajar.map { it.mail }
     }
 
+    fun codigosDeLugares(): String{
+        return lugaresAvisitar.joinToString(", ") {it.codigoAfip}
+    }
+
+    fun dnisDePersonas(): String{
+        return personasAviajar.joinToString(", ") {it.dni}
+    }
 
 }
 
@@ -232,9 +239,25 @@ interface AfipEnviar {
     fun notificarAfip(data: InterfazAFIP)
 }
 
-data class InterfazAFIP(val from: String, val to: String, val dni: String)
+data class InterfazAFIP(val codigos: String, val dnis: String)
 
+class MontoSuperadoInformarAFIP : PostConfirmacionObservers {
+    lateinit var afipEnviar: AfipEnviar
 
+    override fun ejecutar(tour: Tour) {
+        if (tour.montoApagarPorPersona >= 10_000_000){
+            fun notificar(tour:Tour){
+                afipEnviar.notificarAfip(
+                    InterfazAFIP(
+                        tour.codigosDeLugares(),
+                        tour.dnisDePersonas()
+                    )
+                )
+            }
+        }
+    }
+
+}
 class RotadorDePreferenciaBipolar : PostConfirmacionObservers {
     override fun ejecutar(tour: Tour) {
         val personas = tour.personasAviajar
